@@ -42,7 +42,7 @@ var listCmd = &cobra.Command{
 		var versions []GoVersion
 
 		if forceFetch || !fileExists(releasesPath) {
-			resp, err := http.Get("https:/golang.org/dl/?mode=json&include=all")
+			resp, err := http.Get("https://golang.org/dl/?mode=json&include=all")
 			if err != nil {
 				fmt.Println("Failed to fetch versions:", err)
 				os.Exit(1)
@@ -110,8 +110,8 @@ var listCmd = &cobra.Command{
 		for _, prefix := range keys {
 			vers := versionMap[prefix]
 			sort.Strings(vers)
-			limit := 4
-			if len(vers) < 4 {
+			limit := 20
+			if len(vers) < 20 {
 				limit = len(vers)
 			}
 			for _, v := range vers[len(vers)-limit:] {
