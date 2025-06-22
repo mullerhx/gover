@@ -34,4 +34,5 @@ go.work.sum
 #Project specific
 bin/
 gopilot-bin
+gopilot
 
