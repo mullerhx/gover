@@ -16,6 +16,7 @@ build: $(GO_FILES)
 install: build
 	@echo "📦 Installing $(APP_NAME)..."
 	@go install ./...
+	@cp ./gopilot $(shell go env GOPATH)/bin)
 	@echo "✅ Installed to: $(shell go env GOPATH)/bin/$(APP_NAME)"
 
 clean:

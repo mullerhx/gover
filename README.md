@@ -19,3 +19,13 @@ Flags:
 
 Use "gopilot [command] --help" for more information about a command.
 ```
+
+## Building
+```
+make build
+```
+
+## Installing
+```
+make install
+```
