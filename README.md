@@ -1,0 +1,2 @@
+# gopilot
+Go version manager
