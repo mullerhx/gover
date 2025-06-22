@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"runtime"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -39,8 +40,37 @@ var useCmd = &cobra.Command{
 			os.Exit(1)
 		}
 		currentBinLink := filepath.Join(usr.HomeDir, ".gopilot", "current", "bin")
-		_ = os.Chmod(currentBinLink+"/go", 0755)
-		_ = os.Chmod(currentBinLink+"/gofmt", 0755)
+		files, err := os.ReadDir(currentBinLink)
+		if err != nil {
+			fmt.Println("Failed to read bin directory:", err)
+		} else {
+			for _, file := range files {
+				if !file.IsDir() {
+					filePath := filepath.Join(currentBinLink, file.Name())
+					err := os.Chmod(filePath, 0755)
+					if err != nil {
+						fmt.Printf("Failed to chmod %s: %v\n", filePath, err)
+					}
+				}
+			}
+		}
+
+		toolsLink := filepath.Join(usr.HomeDir, ".gopilot", "current", "pkg", "tool", runtime.GOOS+"_"+runtime.GOARCH)
+		files, err = os.ReadDir(toolsLink)
+		if err != nil {
+			fmt.Println("Failed to read ", toolsLink, " directory:", err)
+		} else {
+			for _, file := range files {
+				if !file.IsDir() {
+					filePath := filepath.Join(toolsLink, file.Name())
+					err := os.Chmod(filePath, 0755)
+					if err != nil {
+						fmt.Printf("Failed to chmod %s: %v\n", filePath, err)
+					}
+				}
+			}
+		}
+
 		shell := detectShell()
 		profilePath := shellProfile(shell)
 

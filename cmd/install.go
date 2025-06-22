@@ -20,7 +20,7 @@ var installCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		version := args[0]
-		url := fmt.Sprintf("https:/golang.org/dl/%s.%s-%s.tar.gz", version, runtime.GOOS, runtime.GOARCH)
+		url := fmt.Sprintf("https://golang.org/dl/%s.%s-%s.tar.gz", version, runtime.GOOS, runtime.GOARCH)
 		fmt.Println("Downloading:", url)
 
 		resp, err := http.Get(url)
