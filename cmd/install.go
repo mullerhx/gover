@@ -28,7 +28,9 @@ var installCmd = &cobra.Command{
 			fmt.Println("Error downloading:", err)
 			os.Exit(1)
 		}
-		defer resp.Body.Close()
+		defer func(Body io.ReadCloser) {
+			_ = Body.Close()
+		}(resp.Body)
 
 		if resp.StatusCode != http.StatusOK {
 			fmt.Printf("Failed to download: %s\n", resp.Status)
@@ -41,7 +43,9 @@ var installCmd = &cobra.Command{
 			fmt.Println("Failed to create temp file:", err)
 			os.Exit(1)
 		}
-		defer out.Close()
+		defer func(out *os.File) {
+			_ = out.Close()
+		}(out)
 
 		total := resp.ContentLength
 		progressReader := &progressReader{Reader: resp.Body, total: total}
@@ -78,13 +82,17 @@ func extractTarGz(file, targetDir string) error {
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func(f *os.File) {
+		_ = f.Close()
+	}(f)
 
 	gz, err := gzip.NewReader(f)
 	if err != nil {
 		return err
 	}
-	defer gz.Close()
+	defer func(gz *gzip.Reader) {
+		_ = gz.Close()
+	}(gz)
 
 	tr := tar.NewReader(gz)
 	for {
@@ -98,20 +106,20 @@ func extractTarGz(file, targetDir string) error {
 
 		path := filepath.Join(targetDir, hdr.Name)
 		if strings.HasSuffix(hdr.Name, "/") {
-			os.MkdirAll(path, os.ModePerm)
+			_ = os.MkdirAll(path, os.ModePerm)
 			continue
 		}
 
-		os.MkdirAll(filepath.Dir(path), os.ModePerm)
+		_ = os.MkdirAll(filepath.Dir(path), os.ModePerm)
 		outFile, err := os.Create(path)
 		if err != nil {
 			return err
 		}
 		if _, err := io.Copy(outFile, tr); err != nil {
-			outFile.Close()
+			_ = outFile.Close()
 			return err
 		}
-		outFile.Close()
+		_ = outFile.Close()
 	}
 	return nil
 }

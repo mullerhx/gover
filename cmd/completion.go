@@ -37,15 +37,15 @@ PowerShell:
 	Run: func(cmd *cobra.Command, args []string) {
 		switch args[0] {
 		case "bash":
-			RootCmd.GenBashCompletion(os.Stdout)
+			_ = RootCmd.GenBashCompletion(os.Stdout)
 		case "zsh":
-			RootCmd.GenZshCompletion(os.Stdout)
+			_ = RootCmd.GenZshCompletion(os.Stdout)
 		case "fish":
-			RootCmd.GenFishCompletion(os.Stdout, true)
+			_ = RootCmd.GenFishCompletion(os.Stdout, true)
 		case "powershell":
-			RootCmd.GenPowerShellCompletion(os.Stdout)
+			_ = RootCmd.GenPowerShellCompletion(os.Stdout)
 		default:
-			fmt.Fprintf(os.Stderr, "Unsupported shell type: %q\n", args[0])
+			_, _ = fmt.Fprintf(os.Stderr, "Unsupported shell type: %q\n", args[0])
 			os.Exit(1)
 		}
 	},

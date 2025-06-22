@@ -39,8 +39,8 @@ var useCmd = &cobra.Command{
 			os.Exit(1)
 		}
 		currentBinLink := filepath.Join(usr.HomeDir, ".gopilot", "current", "bin")
-		os.Chmod(currentBinLink+"/go", 0755)
-		os.Chmod(currentBinLink+"/gofmt", 0755)
+		_ = os.Chmod(currentBinLink+"/go", 0755)
+		_ = os.Chmod(currentBinLink+"/gofmt", 0755)
 		shell := detectShell()
 		profilePath := shellProfile(shell)
 

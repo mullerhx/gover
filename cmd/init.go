@@ -3,6 +3,7 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"os/user"
@@ -34,7 +35,9 @@ var initCmd = &cobra.Command{
 			fmt.Println("Failed to fetch versions:", err)
 			os.Exit(1)
 		}
-		defer resp.Body.Close()
+		defer func(Body io.ReadCloser) {
+			_ = Body.Close()
+		}(resp.Body)
 
 		var versions []GoVersion
 		if err := json.NewDecoder(resp.Body).Decode(&versions); err != nil {
@@ -47,7 +50,9 @@ var initCmd = &cobra.Command{
 			fmt.Println("Failed to create releases file:", err)
 			os.Exit(1)
 		}
-		defer file.Close()
+		defer func(file *os.File) {
+			_ = file.Close()
+		}(file)
 		if err := json.NewEncoder(file).Encode(versions); err != nil {
 			fmt.Println("Failed to write releases file:", err)
 			os.Exit(1)
