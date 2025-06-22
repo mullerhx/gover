@@ -6,6 +6,6 @@ import (
 
 var RootCmd = &cobra.Command{
 	Use:   "gopilot",
-	Short: "Gopher is a Go version manager",
-	Long:  "Gopher lets you list, install, and switch between Go versions easily.",
+	Short: "Gopliot is a Go version manager",
+	Long:  "Gopliot lets you list, install, and switch between Go versions easily.",
 }
