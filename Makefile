@@ -13,10 +13,10 @@ build: $(GO_FILES)
 	@go build -buildvcs=false -o `pwd`/$(BUILD_DIR)/$(APP_NAME)
 	@echo "✅ Build complete: $(BUILD_DIR)/$(APP_NAME)"
 
-install: build
+install:
 	@echo "📦 Installing $(APP_NAME)..."
-	@go install ./...
-	@cp ./gopilot $(shell go env GOPATH)/bin)
+	@cp `pwd`/$(BUILD_DIR)/$(APP_NAME) /usr/local/bin/
+	@cp ./gopilot /usr/local/bin/
 	@echo "✅ Installed to: $(shell go env GOPATH)/bin/$(APP_NAME)"
 
 clean:
