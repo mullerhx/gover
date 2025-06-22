@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/mullerhx/gopilot/cmd"
 	"fmt"
+	"github.com/mullerhx/gopilot/cmd"
 	"os"
 )
 

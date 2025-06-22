@@ -42,7 +42,7 @@ var listCmd = &cobra.Command{
 		var versions []GoVersion
 
 		if forceFetch || !fileExists(releasesPath) {
-			resp, err := http.Get("https:/golang.org/dl/?mode=json&include=all")
+			resp, err := http.Get("https://golang.org/dl/?mode=json")
 			if err != nil {
 				fmt.Println("Failed to fetch versions:", err)
 				os.Exit(1)
@@ -121,15 +121,47 @@ var listCmd = &cobra.Command{
 	},
 }
 
-func init() {
-	listCmd.Flags().BoolVarP(&all, "all", "a", false, "Include unstable versions (beta, rc)")
-	listCmd.Flags().StringVarP(&majorFilter, "major", "m", "", "Filter by major version (e.g. 1.21)")
-	listCmd.Flags().BoolVarP(&forceFetch, "force", "f", false, "Force fetch of latest release data")
-	RootCmd.AddCommand(initCmd)
-	RootCmd.AddCommand(listCmd)
-}
+var initCmd = &cobra.Command{
+	Use:   "init",
+	Short: "Initialize gopilot environment",
+	Run: func(cmd *cobra.Command, args []string) {
+		usr, err := user.Current()
+		if err != nil {
+			fmt.Println("Failed to get user info:", err)
+			os.Exit(1)
+		}
+		dir := filepath.Join(usr.HomeDir, ".gopilot")
+		releasesPath := filepath.Join(dir, "releases.json")
 
-func fileExists(path string) bool {
-	_, err := os.Stat(path)
-	return err == nil
+		if err := os.MkdirAll(dir, 0755); err != nil {
+			fmt.Println("Failed to create .gopilot directory:", err)
+			os.Exit(1)
+		}
+
+		fmt.Println("Fetching release list...")
+		resp, err := http.Get("https://golang.org/dl/?mode=json")
+		if err != nil {
+			fmt.Println("Failed to fetch versions:", err)
+			os.Exit(1)
+		}
+		defer resp.Body.Close()
+
+		var versions []GoVersion
+		if err := json.NewDecoder(resp.Body).Decode(&versions); err != nil {
+			fmt.Println("Failed to decode response:", err)
+			os.Exit(1)
+		}
+
+		file, err := os.Create(releasesPath)
+		if err != nil {
+			fmt.Println("Failed to create releases file:", err)
+			os.Exit(1)
+		}
+		defer file.Close()
+		if err := json.NewEncoder(file).Encode(versions); err != nil {
+			fmt.Println("Failed to write releases file:", err)
+			os.Exit(1)
+		}
+		fmt.Println("Gopilot initialized successfully.")
+	},
 }
