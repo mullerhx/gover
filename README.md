@@ -1,5 +1,5 @@
 # gover
-Gopliot lets you list, install, and switch between Go versions easily.
+Gover lets you list, install, and switch between Go versions easily.
 
 ```
 Usage:
