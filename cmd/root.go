@@ -6,6 +6,6 @@ import (
 
 var RootCmd = &cobra.Command{
 	Use:   "gover",
-	Short: "Gopliot is a Go version manager",
-	Long:  "Gopliot lets you list, install, and switch between Go versions easily.",
+	Short: "Gover is a Go version manager",
+	Long:  "Gover lets you list, install, and switch between Go versions easily.",
 }
