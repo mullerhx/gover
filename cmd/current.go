@@ -32,8 +32,12 @@ var currentCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		parts := strings.Split(target, string(os.PathSeparator))
-		version := parts[len(parts)-1]
+		// Extract version from the symlink target
+		versionsDir := filepath.Join(usr.HomeDir, ".gover", "versions") + string(os.PathSeparator)
+		version := target
+		if strings.HasPrefix(target, versionsDir) {
+			version = target[len(versionsDir):]
+		}
 
 		fmt.Println("Current Go version:", version)
 		fmt.Println("GOROOT:", symlink)

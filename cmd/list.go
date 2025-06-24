@@ -29,6 +29,8 @@ var all bool
 var majorFilter string
 var forceFetch bool
 
+var installedOnly bool = false
+
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List available Go versions",
@@ -37,6 +39,32 @@ var listCmd = &cobra.Command{
 		if err != nil {
 			fmt.Println("Failed to get user info:", err)
 			os.Exit(1)
+		}
+
+		// In the Run function, add this block before fetching remote versions
+		if installedOnly {
+			usr, err := user.Current()
+			if err != nil {
+				fmt.Println("Failed to get user info:", err)
+				os.Exit(1)
+			}
+			versionsDir := filepath.Join(usr.HomeDir, ".gover", "versions")
+			entries, err := os.ReadDir(versionsDir)
+			if err != nil {
+				fmt.Println("Failed to read installed versions:", err)
+				os.Exit(1)
+			}
+			var installed []string
+			for _, entry := range entries {
+				if entry.IsDir() {
+					installed = append(installed, entry.Name())
+				}
+			}
+			sort.Strings(installed)
+			for _, v := range installed {
+				fmt.Println(v)
+			}
+			return
 		}
 
 		releasesPath := filepath.Join(usr.HomeDir, ".gover", "releases.json")
@@ -130,6 +158,7 @@ var listCmd = &cobra.Command{
 
 func init() {
 	listCmd.Flags().BoolVarP(&all, "all", "a", false, "Include unstable versions (beta, rc)")
+	listCmd.Flags().BoolVarP(&installedOnly, "installed", "i", false, "List only installed Go versions")
 	listCmd.Flags().StringVarP(&majorFilter, "major", "m", "", "Filter by major version (e.g. 1.21)")
 	listCmd.Flags().BoolVarP(&forceFetch, "force", "f", false, "Force fetch of latest release data")
 	RootCmd.AddCommand(initCmd)
