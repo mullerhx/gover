@@ -30,7 +30,7 @@ var initCmd = &cobra.Command{
 		}
 
 		fmt.Println("Fetching release list...")
-		resp, err := http.Get("https://golang.org/dl/?mode=json")
+		resp, err := http.Get("https://golang.org/dl/?mode=json&include=all")
 		if err != nil {
 			fmt.Println("Failed to fetch versions:", err)
 			os.Exit(1)
@@ -57,6 +57,6 @@ var initCmd = &cobra.Command{
 			fmt.Println("Failed to write releases file:", err)
 			os.Exit(1)
 		}
-		fmt.Println("Gopilot initialized successfully.")
+		fmt.Println("Gover initialized successfully.")
 	},
 }
