@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#set -ex
+
+# Path to your Go binary (adjust as needed)
+GOVER_BIN="$(dirname "$BASH_SOURCE")/gover-bin"
+
+if [ "$1" = "use" ]; then
+  # Capture the environment commands output by the Go binary
+  eval "$($GOVER_BIN use ${@:2} | tail -3)"
+else
+  # Pass through all other commands unchanged
+  exec "$GOVER_BIN" "$@"
+fi
+
