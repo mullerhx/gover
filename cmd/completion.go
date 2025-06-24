@@ -14,22 +14,22 @@ var completionCmd = &cobra.Command{
 
 Bash:
 
-  $ source <(gopilot completion bash)
-  $ gopilot completion bash > /etc/bash_completion.d/gopilot
+  $ source <(gover completion bash)
+  $ gover completion bash > /etc/bash_completion.d/gover
 
 Zsh:
 
   $ echo "autoload -U compinit; compinit" >> ~/.zshrc
-  $ gopilot completion zsh > "${fpath[1]}/_gopilot"
+  $ gover completion zsh > "${fpath[1]}/_gover"
 
 Fish:
 
-  $ gopilot completion fish | source
-  $ gopilot completion fish > ~/.config/fish/completions/gopilot.fish
+  $ gover completion fish | source
+  $ gover completion fish > ~/.config/fish/completions/gover.fish
 
 PowerShell:
 
-  PS> gopilot completion powershell | Out-String | Invoke-Expression
+  PS> gover completion powershell | Out-String | Invoke-Expression
 `,
 	DisableFlagsInUseLine: true,
 	Args:                  cobra.ExactValidArgs(1),

@@ -1,4 +1,4 @@
-module github.com/mullerhx/gopilot
+module github.com/mullerhx/gover
 
 go 1.24.4
 

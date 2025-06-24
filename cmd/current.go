@@ -20,12 +20,12 @@ var currentCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		symlink := filepath.Join(usr.HomeDir, ".gopilot", "current")
+		symlink := filepath.Join(usr.HomeDir, ".gover", "current")
 
 		target, err := os.Readlink(symlink)
 		if err != nil {
 			if os.IsNotExist(err) {
-				fmt.Println("No Go version currently active. Use `gopilot use <version>`.")
+				fmt.Println("No Go version currently active. Use `gover use <version>`.")
 			} else {
 				fmt.Println("Failed to read symlink:", err)
 			}

@@ -27,19 +27,19 @@ var useCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		installPath := filepath.Join(usr.HomeDir, ".gopilot", "versions", version, "go")
+		installPath := filepath.Join(usr.HomeDir, ".gover", "versions", version, "go")
 		if _, err := os.Stat(installPath); os.IsNotExist(err) {
-			fmt.Printf("Version %s not installed. Run `gopilot install %s` first.\n", version, version)
+			fmt.Printf("Version %s not installed. Run `gover install %s` first.\n", version, version)
 			os.Exit(1)
 		}
 
-		currentLink := filepath.Join(usr.HomeDir, ".gopilot", "current")
+		currentLink := filepath.Join(usr.HomeDir, ".gover", "current")
 		_ = os.Remove(currentLink)
 		if err := os.Symlink(installPath, currentLink); err != nil {
 			fmt.Println("Failed to create symlink:", err)
 			os.Exit(1)
 		}
-		currentBinLink := filepath.Join(usr.HomeDir, ".gopilot", "current", "bin")
+		currentBinLink := filepath.Join(usr.HomeDir, ".gover", "current", "bin")
 		files, err := os.ReadDir(currentBinLink)
 		if err != nil {
 			fmt.Println("Failed to read bin directory:", err)
@@ -55,7 +55,7 @@ var useCmd = &cobra.Command{
 			}
 		}
 
-		toolsLink := filepath.Join(usr.HomeDir, ".gopilot", "current", "pkg", "tool", runtime.GOOS+"_"+runtime.GOARCH)
+		toolsLink := filepath.Join(usr.HomeDir, ".gover", "current", "pkg", "tool", runtime.GOOS+"_"+runtime.GOARCH)
 		files, err = os.ReadDir(toolsLink)
 		if err != nil {
 			fmt.Println("Failed to read ", toolsLink, " directory:", err)
@@ -74,10 +74,10 @@ var useCmd = &cobra.Command{
 		shell := detectShell()
 		profilePath := shellProfile(shell)
 
-		fmt.Println("✅ Go version", version, "is now active via ~/.gopilot/current")
+		fmt.Println("✅ Go version", version, "is now active via ~/.gover/current")
 		fmt.Println("👉 Add the following to your", profilePath, "if not already present:\n")
 
-		fmt.Println("export GOROOT=\"$HOME/.gopilot/current\"")
+		fmt.Println("export GOROOT=\"$HOME/.gover/current\"")
 		fmt.Println("export PATH=\"$GOROOT/bin:$PATH\"")
 		fmt.Println("export GOPATH=\"$HOME/go\"")
 	},

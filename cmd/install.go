@@ -55,7 +55,7 @@ var installCmd = &cobra.Command{
 		}
 
 		fmt.Println("\nExtracting...")
-		if err := extractTarGz(outFile, filepath.Join(os.Getenv("HOME"), ".gopilot", "versions", version)); err != nil {
+		if err := extractTarGz(outFile, filepath.Join(os.Getenv("HOME"), ".gover", "versions", version)); err != nil {
 			fmt.Println("Failed to extract archive:", err)
 			os.Exit(1)
 		}

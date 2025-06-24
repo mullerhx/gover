@@ -1,4 +1,4 @@
-APP_NAME = gopilot-bin
+APP_NAME = gover-bin
 BUILD_DIR = bin
 
 GO_FILES := $(shell find . -name '*.go' -type f)
@@ -16,7 +16,7 @@ build: $(GO_FILES)
 install:
 	@echo "📦 Installing $(APP_NAME)..."
 	@cp `pwd`/$(BUILD_DIR)/$(APP_NAME) /usr/local/bin/
-	@cp ./gopilot /usr/local/bin/
+	@cp ./gover /usr/local/bin/
 	@echo "✅ Installed to: $(shell go env GOPATH)/bin/$(APP_NAME)"
 
 clean:

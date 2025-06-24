@@ -39,7 +39,7 @@ var listCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		releasesPath := filepath.Join(usr.HomeDir, ".gopilot", "releases.json")
+		releasesPath := filepath.Join(usr.HomeDir, ".gover", "releases.json")
 		var versions []GoVersion
 
 		if forceFetch || !fileExists(releasesPath) {
@@ -58,7 +58,7 @@ var listCmd = &cobra.Command{
 			}
 
 			if err := os.MkdirAll(filepath.Dir(releasesPath), 0755); err != nil {
-				fmt.Println("Failed to create .gopilot directory:", err)
+				fmt.Println("Failed to create .gover directory:", err)
 				os.Exit(1)
 			}
 

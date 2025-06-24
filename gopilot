@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Path to your Go binary (adjust as needed)
-GOPILOT_BIN="$(dirname "$BASH_SOURCE")/gopilot-bin"
+GOPILOT_BIN="$(dirname "$BASH_SOURCE")/gover-bin"
 
 if [ "$1" = "switch" ]; then
   # Capture the environment commands output by the Go binary

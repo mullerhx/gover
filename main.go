@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/mullerhx/gopilot/cmd"
+	"github.com/mullerhx/gover/cmd"
 	"os"
 )
 

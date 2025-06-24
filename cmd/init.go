@@ -14,18 +14,18 @@ import (
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Initialize gopilot environment",
+	Short: "Initialize gover environment",
 	Run: func(cmd *cobra.Command, args []string) {
 		usr, err := user.Current()
 		if err != nil {
 			fmt.Println("Failed to get user info:", err)
 			os.Exit(1)
 		}
-		dir := filepath.Join(usr.HomeDir, ".gopilot")
+		dir := filepath.Join(usr.HomeDir, ".gover")
 		releasesPath := filepath.Join(dir, "releases.json")
 
 		if err := os.MkdirAll(dir, 0755); err != nil {
-			fmt.Println("Failed to create .gopilot directory:", err)
+			fmt.Println("Failed to create .gover directory:", err)
 			os.Exit(1)
 		}
 
